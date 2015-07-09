@@ -8,9 +8,13 @@ User.create!(name: "Example User", email: "example@railstutorial.org", password:
 	name = Faker::Name.name
 	email = "example-#{n+1}@railstutorial.org"
 	password = "password"
-	if n.even?
-		User.create!(name: name, email: email, password: password, password_confirmation: password, activated: true, activated_at: Time.zone.now)
-	else
-		User.create!(name: name, email: email, password: password, password_confirmation: password, activated: false)
+	User.create!(name: name, email: email, password: password, password_confirmation: password, activated: true, activated_at: Time.zone.now)
+end
+
+users = User.order(:created_at).take(6)
+users.each do |user|
+	50.times do
+		content = Faker::Lorem.sentence(5)
+		user.microposts.create!(content: content)
 	end
 end
